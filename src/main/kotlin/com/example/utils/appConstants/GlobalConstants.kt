@@ -6,6 +6,6 @@ object GlobalConstants {
     const val EMAIL="jasmin@gmail.com"
     const val MPIN="123456"
     const val AADHAR="456721349807"
-    const val PAN="B23A1C42D1F"
+    const val PAN="ABCDE1234F"
     const val TWOFA="123456"
 }

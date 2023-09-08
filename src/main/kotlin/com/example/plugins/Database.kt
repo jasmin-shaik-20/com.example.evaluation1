@@ -19,32 +19,7 @@ fun configureDatabase() {
         SchemaUtils.createMissingTablesAndColumns(Users, Stages)
     }
 }
-fun insertStages() {
-    transaction {
-        // Define the stages with unique order IDs
-        val stagesData = listOf(
-            Pair(1, "Mobile verification"),
-            Pair(2, "Email verification"),
-            Pair(3, "Set MPIN"),
-            Pair(4, "Add Aadhaar card"),
-            Pair(5, "Add PAN card"),
-            Pair(6, "Set 2FA")
-        )
 
-        // Check if stages already exist
-        val existingStages = Stages.selectAll().map { it[Stages.orderId] }
-
-        // Insert stages that do not already exist
-        for ((orderId, stageName) in stagesData) {
-            if (orderId !in existingStages) {
-                Stages.insert {
-                    it[Stages.orderId] = orderId
-                    it[Stages.stageName] = stageName
-                }
-            }
-        }
-    }
-}
 
 
 suspend fun <T> dbQuery(block: suspend () -> T): T =

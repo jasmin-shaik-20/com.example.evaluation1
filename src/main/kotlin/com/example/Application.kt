@@ -16,5 +16,4 @@ fun Application.module() {
     configureDatabase()
     configureStatusPages()
     configureKoin()
-    insertStages()
 }

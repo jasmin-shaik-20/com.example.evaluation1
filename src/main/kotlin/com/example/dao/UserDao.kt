@@ -12,4 +12,8 @@ interface UserDao {
     suspend fun updateStage(userId: String,nextStage:Int)
 
     suspend fun updateIsVerified(userId: String, isVerified:Boolean)
+
+    suspend fun isExpired(userId: String,time:Long):Boolean
+
+    suspend fun resetStage(userId:String)
 }

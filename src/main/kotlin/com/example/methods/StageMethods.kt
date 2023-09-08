@@ -29,7 +29,7 @@ class StageMethods:KoinComponent {
 
             6 -> twoFactorAuthenticationService.verify2FA(GlobalConstants.TWOFA)
 
-            else-> return false
+            else->  false
         }
     }
 }

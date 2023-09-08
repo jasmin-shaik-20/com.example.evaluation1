@@ -12,5 +12,5 @@ data class User(
     var currentStage: Int=1,
     var nextStage: Int=currentStage+1,
     var isVerified: Boolean = false,
-    var lastStageUpdate: Long= getTimeMillis()
+    var lastStageUpdate: Long
 )

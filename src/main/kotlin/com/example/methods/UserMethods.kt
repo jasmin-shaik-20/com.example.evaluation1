@@ -15,29 +15,36 @@ class UserMethods:KoinComponent {
         val currentStage = user.currentStage
         val nextStage = user.nextStage
         val isCurrentStageCompleted = stageMethods.isStageCompleted(currentStage)
-        if (isCurrentStageCompleted) {
-            userRepository.updateStage(user.id,nextStage)
-
-            if (nextStage == 6) {
-                userRepository.updateIsVerified(user.id,true)
+        val currentTime= System.currentTimeMillis()
+        val time=userRepository.isExpired(user.id,currentTime)
+        println("Time:$time")
+        println(isCurrentStageCompleted)
+        if (isCurrentStageCompleted && !time) {
+            if (currentStage < 6) {
+                userRepository.updateStage(user.id, nextStage)
+                return "Stage completed successfully"
+            } else if (currentStage == 6) {
+                userRepository.updateIsVerified(user.id, true)
+                return "Verification completed"
             }
-
-            return "Stage completed successfully"
-        } else {
-            val lastStageUpdate = user.lastStageUpdate
-            val currentTime = getTimeMillis()
-            val elapsedMinutes =  (currentTime - lastStageUpdate) / (60 * 1000)
-
-            return if (elapsedMinutes >= 15) {
-                user.currentStage = 1
-                user.nextStage = 2
-                user.isVerified = false
-                user.lastStageUpdate = getTimeMillis()
-
-                "Stage reset to 1 due to inactivity"
-            } else {
-                "Current stage not completed yet"
+            else{
+                return "Stage not completed"
             }
+        }
+//        else if(isCurrentStageCompleted==false && currentStage>6){
+//            return "Verification completed"
+//        }
+        else {
+            userRepository.resetStage(user.id)
+//            val elapsedMinutes =  (currentTime - lastStageUpdate) / (60 * 1000)
+
+//                user.currentStage = 1
+//                user.nextStage = 2
+//                user.isVerified = false
+//                user.lastStageUpdate = getTimeMillis()
+
+                return "Stage reset to 1 due to inactivity"
+
         }
     }
 }

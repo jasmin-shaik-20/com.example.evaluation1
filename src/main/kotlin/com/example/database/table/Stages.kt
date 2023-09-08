@@ -5,7 +5,7 @@ import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Table
 
-object Stages : Table() {
-    val orderId = integer("orderId").uniqueIndex()
-    val stageName = varchar("stageName", GlobalConstants.MAX_LENGTH)
+object Stages : UUIDTable() {
+    val stageName = varchar("stage_name", 255)
+    val userId = reference("userId", Users).nullable()
 }

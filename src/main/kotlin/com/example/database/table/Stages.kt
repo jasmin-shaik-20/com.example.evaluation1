@@ -6,6 +6,6 @@ import org.jetbrains.exposed.dao.id.UUIDTable
 import org.jetbrains.exposed.sql.Table
 
 object Stages : Table() {
-    val orderId=integer("orderId").autoIncrement()
-    val stageName = varchar("stage_name", GlobalConstants.MAX_LENGTH)
+    val orderId = integer("orderId").uniqueIndex()
+    val stageName = varchar("stageName", GlobalConstants.MAX_LENGTH)
 }

@@ -1,9 +1,9 @@
-package com.example.services
+package com.example.services.verficationServices
 
 
 class EmailVerificationService{
     fun verifyEmail(email: String): Boolean {
-        if (email.isNullOrBlank()) {
+        if (email.isBlank()) {
             return false
         }
         return email.contains("@") && email.contains(".")

@@ -14,5 +14,7 @@ fun Application.module() {
     configureSerialization()
     configureRouting()
     configureDatabase()
+    configureStatusPages()
+    configureKoin()
     insertStages()
 }

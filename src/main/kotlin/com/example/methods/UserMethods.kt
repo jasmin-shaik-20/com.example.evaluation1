@@ -8,18 +8,17 @@ import org.koin.core.component.inject
 
 class UserMethods:KoinComponent {
 
-    private val stageMethods=StageMethods()
+    private val stageMethods by inject<StageMethods>()
     private val userRepository by inject<UserRepository>()
 
     suspend fun completeCurrentStage(user: User): String {
         val currentStage = user.currentStage
         val nextStage = user.nextStage
         val isCurrentStageCompleted = stageMethods.isStageCompleted(currentStage)
-        val currentTime= System.currentTimeMillis()
-        val time=userRepository.isExpired(user.id,currentTime)
-        println("Time:$time")
-        println(isCurrentStageCompleted)
-        if (isCurrentStageCompleted && !time) {
+        val currentTime = System.currentTimeMillis()
+        val isTimeExpired = userRepository.isExpired(user.id, currentTime)
+
+        if (isCurrentStageCompleted && !isTimeExpired) {
             if (currentStage < 6) {
                 userRepository.updateStage(user.id, nextStage)
                 return "Stage completed successfully"
@@ -27,24 +26,13 @@ class UserMethods:KoinComponent {
                 userRepository.updateIsVerified(user.id, true)
                 return "Verification completed"
             }
-            else{
-                return "Stage not completed"
-            }
         }
-//        else if(isCurrentStageCompleted==false && currentStage>6){
-//            return "Verification completed"
-//        }
-        else {
-            userRepository.resetStage(user.id)
-//            val elapsedMinutes =  (currentTime - lastStageUpdate) / (60 * 1000)
-
-//                user.currentStage = 1
-//                user.nextStage = 2
-//                user.isVerified = false
-//                user.lastStageUpdate = getTimeMillis()
-
-                return "Stage reset to 1 due to inactivity"
-
+        userRepository.resetStage(user.id)
+        return if (isTimeExpired) {
+            "Stage reset to 1 due to inactivity"
+        } else {
+            "Stage not completed"
         }
     }
+
 }

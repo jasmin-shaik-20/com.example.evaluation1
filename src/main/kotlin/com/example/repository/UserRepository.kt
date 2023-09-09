@@ -3,18 +3,17 @@ package com.example.repository
 import com.example.dao.UserDao
 import com.example.database.table.Stages
 import com.example.database.table.Users
-import com.example.entities.StageEntity
 import com.example.entities.UserEntity
 import com.example.model.InputData
 import com.example.model.User
+import com.example.utils.appConstants.GlobalConstants
 import com.example.utils.helperFunctions.resultRowToUser
-import io.ktor.util.date.*
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class UserRepository:UserDao {
-    private val numbersMap = mapOf(1 to "MobileNumber", 2 to "Gmail", 3 to "MPIN", 4 to "Aadhar",5 to "Pan Card",6 to "Set 2FA")
+
     override suspend fun createUser(user:InputData): UUID {
         return transaction {
             val userId = UserEntity.new {
@@ -24,7 +23,7 @@ class UserRepository:UserDao {
             val uuid=UUID.fromString(userId.toString())
             Stages.insert{
                 it[Stages.userId]=uuid
-                it[Stages.stageName]=numbersMap[1]!!
+                it[stageName]=GlobalConstants.numbersMap[1]!!
             }
             uuid
         }
@@ -45,12 +44,12 @@ class UserRepository:UserDao {
         val userUUID = UUID.fromString(userId)
         transaction {
             Users.update({ Users.id eq userUUID }) {
-                it[Users.currentStage] = nextStage
+                it[currentStage] = nextStage
                 it[Users.nextStage] = nextStage + 1
-                it[Users.lastStageUpdate]= System.currentTimeMillis()
+                it[lastStageUpdate]= System.currentTimeMillis()
             }
             Stages.update({ Stages.userId eq userUUID }){
-                it[Stages.stageName]=numbersMap[nextStage]!!
+                it[stageName]=GlobalConstants.numbersMap[nextStage]!!
             }
         }
 
@@ -68,21 +67,20 @@ class UserRepository:UserDao {
     override suspend fun isExpired(userId: String,time:Long):Boolean{
         val userUUID = UUID.fromString(userId)
         val result=time-getUserById(userUUID)!!.lastStageUpdate
-        println(result)
-        return result>15000
+        return result>GlobalConstants.EXPIRETIME
 
     }
     override suspend fun resetStage(userId:String){
         val userUUID = UUID.fromString(userId)
         transaction {
             Users.update({Users.id eq userUUID}){
-                it[Users.currentStage]=1
+                it[currentStage]=1
                 it[nextStage]=2
                 it[isVerified]=false
                 it[lastStageUpdate]= System.currentTimeMillis()
             }
             Stages.update({ Stages.userId eq userUUID }){
-                it[Stages.stageName]=numbersMap[1]!!
+                it[stageName]=GlobalConstants.numbersMap[1]!!
             }
         }
     }

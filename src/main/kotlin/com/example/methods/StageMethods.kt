@@ -16,6 +16,7 @@ class StageMethods:KoinComponent {
     private val twoFactorAuthenticationService by inject<TwoFactorAuthenticationService>()
 
     fun isStageCompleted(stageNumber: Int): Boolean {
+
         return when (stageNumber) {
             1 -> mobileVerificationService.verifyMobileNumber(GlobalConstants.PHONENUMBER)
 

@@ -20,7 +20,3 @@ fun configureDatabase() {
     }
 }
 
-
-
-suspend fun <T> dbQuery(block: suspend () -> T): T =
-    newSuspendedTransaction(Dispatchers.IO) { block() }

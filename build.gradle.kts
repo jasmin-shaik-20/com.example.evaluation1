@@ -38,6 +38,13 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:0.40.1")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.40.1")
 
+    //callLogging
+    implementation("io.ktor:ktor-server-call-logging:$ktor_version")
+    implementation("ch.qos.logback:logback-classic:1.2.9")
+
+    //requestValidation
+    implementation("io.ktor:ktor-server-request-validation:$ktor_version")
+
     //postgresql
     implementation("org.postgresql:postgresql:42.5.4")
 

@@ -51,8 +51,8 @@ class UserRepositoryTest {
     fun testCreateUser() = runBlocking {
         val user = InputData("jasmin", "jasmin123@gmail.com")
         val newUser = userRepository.createUser(user)
-        val uuid = newUser.toString()
-        assertEquals(newUser.toString(), uuid)
+        val getUser=userRepository.getUserById(newUser)
+        assertEquals(newUser.toString(),getUser?.id)
     }
 
     @Test

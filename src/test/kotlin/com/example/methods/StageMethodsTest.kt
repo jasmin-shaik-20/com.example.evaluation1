@@ -20,13 +20,13 @@ import kotlin.test.assertTrue
 
 class StageMethodsTest : KoinComponent{
 
-    private val stageMethods =StageMethods()
-    private val mobileVerificationService=MobileVerificationService()
-    private val emailVerificationService=EmailVerificationService()
-    private val aadhaarVerificationService=AadhaarVerificationService()
-    private val mpinVerificationService=MPINVerificationService()
-    private val twoFactorVerificationService=TwoFactorVerificationService()
-    private val panVerificationService=PANVerificationService()
+    private val stageMethods by inject<StageMethods>()
+    private val mobileVerificationService by inject<MobileVerificationService>()
+    private val emailVerificationService by inject<EmailVerificationService>()
+    private val aadhaarVerificationService by inject<AadhaarVerificationService>()
+    private val mpinVerificationService by inject<MPINVerificationService>()
+    private val twoFactorVerificationService by inject<TwoFactorVerificationService>()
+    private val panVerificationService by inject<PANVerificationService>()
 
     @Before
     fun setup(){

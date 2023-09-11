@@ -27,9 +27,9 @@ class UserMethodsTest: KoinComponent{
 
     private lateinit var database:Database
 
-    private val stageMethods = mockk<StageMethods>()
-    private val userRepository = mockk<UserRepository>()
-    private val userMethods = mockk<UserMethods>()
+    private val stageMethods by inject<StageMethods>()
+    private val userRepository by inject<UserRepository>()
+    private val userMethods by inject<UserMethods>()
 
     @Before
     fun setup(){

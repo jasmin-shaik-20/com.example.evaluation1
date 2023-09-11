@@ -10,7 +10,6 @@ import com.example.services.UserServices
 import com.example.utils.appConstants.ApiEndPoints
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.plugins.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*

@@ -1,6 +1,7 @@
 package com.example.di
 
 import com.example.dao.UserDao
+import com.example.methods.StageMethods
 import com.example.methods.UserMethods
 import com.example.repository.UserRepository
 import com.example.services.*
@@ -14,11 +15,12 @@ val appModule= module {
     singleOf(::UserRepository) {bind<UserDao>()}
     single { UserServices() }
     single { UserMethods() }
+    single { StageMethods() }
     single { MobileVerificationService() }
     single { EmailVerificationService() }
     single { MPINVerificationService() }
     single { AadhaarVerificationService() }
     single { PANVerificationService() }
-    single { TwoFactorAuthenticationService() }
+    single { TwoFactorVerificationService() }
 
 }

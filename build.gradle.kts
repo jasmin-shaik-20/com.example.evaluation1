@@ -29,9 +29,7 @@ dependencies {
     implementation("io.ktor:ktor-serialization-kotlinx-json-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
     implementation("ch.qos.logback:logback-classic:$logback_version")
-    testImplementation("io.ktor:ktor-server-tests-jvm")
     implementation("io.ktor:ktor-server-status-pages:$ktor_version")
-    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 
     //database
     implementation("org.jetbrains.exposed:exposed-core:0.40.1")
@@ -50,4 +48,11 @@ dependencies {
 
     //koin
     implementation ("io.insert-koin:koin-ktor:3.4.1")
+
+    //testing
+    testImplementation("io.ktor:ktor-server-tests-jvm")
+    testImplementation ("io.mockk:mockk:1.13.3")
+    testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    implementation("com.h2database:h2:1.4.192")
+    testImplementation ("org.testng:testng:7.7.0")
 }

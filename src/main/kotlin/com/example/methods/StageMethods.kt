@@ -1,6 +1,5 @@
 package com.example.methods
 
-import com.example.services.*
 import com.example.services.verficationServices.*
 import com.example.utils.appConstants.GlobalConstants
 import org.koin.core.component.KoinComponent
@@ -13,7 +12,7 @@ class StageMethods:KoinComponent {
     private val mpinVerificationService by inject<MPINVerificationService>()
     private val aadhaarVerificationService by inject<AadhaarVerificationService>()
     private val panVerificationService by inject<PANVerificationService>()
-    private val twoFactorAuthenticationService by inject<TwoFactorAuthenticationService>()
+    private val twoFactorAuthenticationService by inject<TwoFactorVerificationService>()
 
     fun isStageCompleted(stageNumber: Int): Boolean {
 

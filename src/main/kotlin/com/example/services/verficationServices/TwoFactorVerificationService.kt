@@ -1,6 +1,6 @@
 package com.example.services.verficationServices
 
-class TwoFactorAuthenticationService {
+class TwoFactorVerificationService {
 
     fun verify2FA(code: String): Boolean {
 

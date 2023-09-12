@@ -20,10 +20,11 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.After
+import org.koin.core.context.stopKoin
 import java.sql.Connection
 
 
-class UserRoutesTest : KoinComponent {
+class UserRoutesTest {
 
     private val userRepository = UserRepository()
     private lateinit var database:Database
@@ -39,6 +40,7 @@ class UserRoutesTest : KoinComponent {
 
     @After
     fun teardown(){
+        stopKoin()
         transaction(database) {
             SchemaUtils.drop(Users,Stages)
         }
@@ -82,6 +84,7 @@ class UserRoutesTest : KoinComponent {
         }
         assertEquals(HttpStatusCode.OK,response.status)
     }
+
 
 }
 

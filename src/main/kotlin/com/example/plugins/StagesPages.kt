@@ -3,6 +3,7 @@ package com.example.plugins
 import com.example.exceptions.InvalidLengthException
 import com.example.exceptions.UserNotFoundException
 import io.ktor.server.application.*
+import io.ktor.server.plugins.requestvalidation.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 
@@ -12,6 +13,7 @@ fun Application.configureStatusPages(){
             when (cause) {
                 is UserNotFoundException -> call.respond("User not found")
                 is InvalidLengthException -> call.respond("Invalid length of username and email")
+                is RequestValidationException -> call.respondText("${cause.message}")
             }
         }
     }

@@ -1,17 +1,17 @@
 package com.example.plugins
 
-import com.example.entities.UserEntity
+import com.example.model.InputData
 import io.ktor.server.application.*
 import io.ktor.server.plugins.requestvalidation.RequestValidation
 import io.ktor.server.plugins.requestvalidation.ValidationResult
 
 fun Application.configureValidation(){
     install(RequestValidation){
-        validate<UserEntity> { bodyText -> validateUser(bodyText) }
+        validate<InputData> { bodyText -> validateUser(bodyText) }
     }
 }
 
-private fun validateUser(bodyText: UserEntity): ValidationResult {
+private fun validateUser(bodyText: InputData): ValidationResult {
     return when {
         bodyText.name.isBlank() -> ValidationResult.Invalid("Name should not be empty")
         !bodyText.name.matches(Regex("[a-zA-Z]+")) -> ValidationResult.Invalid("Name should contain alphabetic")

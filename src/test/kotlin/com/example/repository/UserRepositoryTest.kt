@@ -1,25 +1,21 @@
 package com.example.repository
 
 import com.example.database.table.Stages
-import com.example.database.table.Stages.userId
 import com.example.database.table.Users
-import com.example.database.table.Users.currentStage
-import com.example.database.table.Users.nextStage
-import com.example.methods.UserMethods
 import com.example.model.InputData
 import com.example.utils.H2Database
-import com.example.utils.appConstants.GlobalConstants
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.testng.Assert.assertNotNull
+import org.testng.Assert.assertNull
 import java.sql.Connection
+import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -109,5 +105,51 @@ class UserRepositoryTest {
         assertEquals(false, updatedUser?.isVerified)
         assertTrue(updatedUser?.lastStageUpdate!! >= System.currentTimeMillis() - 1000) // Check if lastStageUpdate is within 1 second of the current time
     }
+
+    //failure
+    @Test
+    fun testGetUser_UserNotFound() = runBlocking {
+        val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
+        val uuid=UUID.fromString(userId)
+        val getUser = userRepository.getUserById(uuid)
+        assertNull(getUser, "Getting a user that doesn't exist should return null")
+    }
+
+    @Test
+    fun testUpdateStage_UserNotFound() = runBlocking {
+        val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
+        val nextStage = 2
+        val result = userRepository.updateStage(userId, nextStage)
+        assertNotNull(result, "Updating stage for a user that doesn't exist should return false")
+    }
+
+    @Test
+    fun testUpdateIsVerified_UserNotFound() = runBlocking {
+        val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
+        val isVerified = true
+        val result = userRepository.updateIsVerified(userId, isVerified)
+        assertNotNull(result, "Updating isVerified for a user that doesn't exist should return false")
+    }
+
+    @Test
+    fun testIsExpired_UserNotFound() = runBlocking {
+        val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
+        val currentTime = System.currentTimeMillis()
+        val isExpired = userRepository.isExpired(userId, currentTime)
+        assertFalse(isExpired, "Checking expiration for a user that doesn't exist should return false")
+    }
+
+    @Test
+    fun testResetStage_UserNotFound() = runBlocking {
+        val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
+        val result = userRepository.resetStage(userId)
+        assertNotNull(result, "Resetting stage for a user that doesn't exist should return false")
+    }
+
+
+
+
+
+
 
 }

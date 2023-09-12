@@ -3,7 +3,7 @@ package com.example.utils.appConstants
 object GlobalConstants {
 
     const val MAX_LENGTH=120
-    const val EXPIRETIME=15000
+    const val EXPIRETIME=900000
     const val CURRENTSTAGEDEFAULTVALUE=1
     const val NEXTSTAGEDEFAULTVALUE=2
     const val VERIFIEDDEFAULTVALUE=false

@@ -36,7 +36,6 @@ fun Application.configureUserRoutes(){
                 val getData=userServices.handleGetUser(userId)
                 call.respond(getData)
                 call.application.environment.log.info("Returned user with ID: $getData")
-
             }
             post("{id}/updateStage") {
                 val userId = call.parameters["id"]?.let(UUID::fromString)?:return@post call.respond("Missing id")

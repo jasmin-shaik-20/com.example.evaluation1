@@ -20,7 +20,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.context.stopKoin
-import org.koin.dsl.module
 import java.sql.Connection
 import java.util.UUID
 import kotlin.test.assertEquals

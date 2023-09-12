@@ -55,4 +55,6 @@ dependencies {
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
     implementation("com.h2database:h2:1.4.192")
     testImplementation ("org.testng:testng:7.7.0")
+    testImplementation("io.ktor:ktor-server-test-host:1.6.10")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.2")
 }

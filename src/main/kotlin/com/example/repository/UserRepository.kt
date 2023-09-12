@@ -64,11 +64,15 @@ class UserRepository:UserDao {
         }
     }
 
-    override suspend fun isExpired(userId: String,time:Long):Boolean{
+    override suspend fun isExpired(userId: String, time: Long): Boolean {
         val userUUID = UUID.fromString(userId)
-        val result=time-getUserById(userUUID)!!.lastStageUpdate
-        return result>GlobalConstants.EXPIRETIME
-
+        val user = getUserById(userUUID)
+        return if (user != null) {
+            val result = time - user.lastStageUpdate
+            result > GlobalConstants.EXPIRETIME
+        } else {
+            false
+        }
     }
     override suspend fun resetStage(userId:String){
         val userUUID = UUID.fromString(userId)

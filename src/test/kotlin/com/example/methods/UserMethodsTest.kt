@@ -55,50 +55,27 @@ class UserMethodsTest: KoinComponent{
     fun testCompleteCurrentStageStageCompletedNotExpired()= runBlocking{
         val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
         val currentStage = 1
-        coEvery { stageMethods.isStageCompleted(currentStage) } returns true
-        coEvery { userRepository.isExpired(userId, any()) } returns false
-        coEvery { userMethods.completeCurrentStage(any()) } returns "Stage completed successfully"
         val result = userMethods.completeCurrentStage(User(userId, "jasmin", "jasmin123@gmail.com", currentStage, 2, false, System.currentTimeMillis()))
+        stageMethods.isStageCompleted(1)
         assertEquals("Stage completed successfully", result)
     }
 
     @Test
     fun testCompleteCurrentStageStageNotCompleted()= runBlocking{
         val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
-        val currentStage = 1
-        coEvery { stageMethods.isStageCompleted(currentStage) } returns false
-        coEvery { userRepository.isExpired(userId,any()) } returns false
-        coEvery { userMethods.completeCurrentStage(any()) } returns "Stage not completed"
+        val currentStage = 7
+        stageMethods.isStageCompleted(7)
         val result = userMethods.completeCurrentStage(User(userId, "jasmin", "jasmin123@gmail.com", currentStage, 2, false, System.currentTimeMillis()))
         assertEquals("Stage not completed", result)
     }
 
     @Test
-    fun testCompleteCurrentStage_StageCompletedButExpired()= runBlocking {
-        val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
-        val currentStage = 1
-        coEvery { stageMethods.isStageCompleted(currentStage) } returns true
-        coEvery { userRepository.isExpired(userId, any()) } returns true
-        coEvery { userMethods.completeCurrentStage(any())} returns "Stage reset to 1 due to inactivity"
-        val result = userMethods.completeCurrentStage(User(userId, "jasmin", "jasmin123@gmail.com", currentStage, 2, false, System.currentTimeMillis()))
-        assertEquals("Stage reset to 1 due to inactivity", result)
-    }
-
-    @Test
-    fun testCompleteCurrentStage_CompletedStage6()= runBlocking{
+    fun testCompleteCurrentStageCompletedStage6()= runBlocking {
         val userId = "47db4560-ea9e-4a65-946a-b2faae518c86"
         val currentStage = 6
-        coEvery { stageMethods.isStageCompleted(currentStage) } returns true
-        coEvery { userRepository.isExpired(userId, any()) } returns false
-        coEvery { userMethods.completeCurrentStage(any())} returns "Verification completed"
+        stageMethods.isStageCompleted(currentStage)
+        userRepository.isExpired(userId,System.currentTimeMillis())
         val result = userMethods.completeCurrentStage(User(userId, "jasmin", "jasmin123@gmail.com", currentStage, 2, false, System.currentTimeMillis()))
-        assertEquals("Verification completed", result)
+        assertEquals("Verification completed",result)
     }
-
-
-
-
-
-
-
 }

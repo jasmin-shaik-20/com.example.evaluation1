@@ -1,6 +1,7 @@
 package com.example.services
 
 import com.example.exceptions.InvalidLengthException
+import com.example.exceptions.UserAlreadyExistException
 import com.example.exceptions.UserNotFoundException
 import com.example.model.InputData
 import com.example.model.User
@@ -24,6 +25,10 @@ class UserServices : KoinComponent  {
                                emailMaxLength:Int?):UUID {
         if (user.name.length in nameMinLength!!..nameMaxLength!! &&
             user.email.length in emailMinLength!!..emailMaxLength!!) {
+            val existingUser = userRepository.getUserByNameOrEmail(user.name,user.email)
+            if (existingUser != null) {
+                throw UserAlreadyExistException()
+            }
             return userRepository.createUser(user)
         } else {
             throw InvalidLengthException()

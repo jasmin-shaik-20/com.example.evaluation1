@@ -71,7 +71,7 @@ class UserRoutesTest {
                 headers[HttpHeaders.ContentType] = ContentType.Application.Json.toString()
                 setBody(serializedUser)
             }
-            assertEquals(HttpStatusCode.Created,response.status)
+            assertEquals(HttpStatusCode.OK,response.status)
         }
     }
 

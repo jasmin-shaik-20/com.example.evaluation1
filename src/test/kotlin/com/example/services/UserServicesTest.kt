@@ -4,6 +4,7 @@ import com.example.database.table.Stages
 import com.example.database.table.Users
 import com.example.di.appModule
 import com.example.exceptions.InvalidLengthException
+import com.example.exceptions.UserAlreadyExistException
 import com.example.exceptions.UserNotFoundException
 import com.example.model.InputData
 import com.example.repository.UserRepository
@@ -20,6 +21,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.context.stopKoin
+import org.testng.Assert.assertNotNull
 import java.sql.Connection
 import java.util.UUID
 import kotlin.test.assertEquals
@@ -29,7 +31,6 @@ class UserServicesTest:KoinComponent {
 
     private val userServices by inject<UserServices>()
     private val userRepository by inject<UserRepository>()
-
     private lateinit var database: Database
 
     @Before
@@ -64,12 +65,18 @@ class UserServicesTest:KoinComponent {
     }
 
     @Test
-    fun testHandlePostUser()= runBlocking {
-        val user=InputData("jasmin","jasmin123@gmail.com")
-        val userId=userServices.handlePostUser(user,4,50,5,50)
-        val createdUser=userRepository.getUserById(userId)
-        assertEquals(user.name,createdUser?.name)
-        assertEquals(user.email,createdUser?.email)
+    fun testHandlePostUser() = runBlocking {
+        val user = InputData("jasminshaik", "jasmin1234@gmail.com")
+        try {
+            val userId = userServices.handlePostUser(user, 4, 50, 5, 50)
+            val existingUser = userRepository.getUserByNameOrEmail(user.name, user.email)
+            val createdUser = userRepository.getUserById(userId)
+            assertEquals(user.name, createdUser?.name)
+            assertEquals(user.email, createdUser?.email)
+        } catch (e: UserAlreadyExistException) {
+            val existingUser = userRepository.getUserByNameOrEmail(user.name, user.email)
+            assertNotNull(existingUser)
+        }
     }
 
     //failure

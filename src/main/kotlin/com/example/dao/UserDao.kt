@@ -10,6 +10,7 @@ interface UserDao {
     suspend fun getUserById(userId: UUID): User?
 
     suspend fun updateStage(userId: String,nextStage:Int)
+    suspend fun getUserByNameOrEmail(name: String,email:String): Boolean
 
     suspend fun updateIsVerified(userId: String, isVerified:Boolean)
 

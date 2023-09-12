@@ -55,6 +55,14 @@ class UserRepository:UserDao {
 
     }
 
+    override suspend fun getUserByNameOrEmail(name: String,email:String): Boolean {
+        return transaction {
+            val resultByName = Users.select { Users.name eq name }.singleOrNull()
+            val resultByEmail = Users.select { Users.email eq email }.singleOrNull()
+            resultByName != null && resultByEmail!=null
+        }
+    }
+
     override suspend fun updateIsVerified(userId: String, isVerified:Boolean){
         val userUUID = UUID.fromString(userId)
         transaction {

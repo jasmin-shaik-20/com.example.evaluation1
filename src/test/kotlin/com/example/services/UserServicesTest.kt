@@ -27,7 +27,7 @@ import java.util.UUID
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
-class UserServicesTest:KoinComponent {
+class UserServicesTest : KoinComponent {
 
     private val userServices by inject<UserServices>()
     private val userRepository by inject<UserRepository>()
@@ -35,7 +35,6 @@ class UserServicesTest:KoinComponent {
 
     @Before
     fun setup() {
-
         startKoin {
             modules(appModule)
         }
